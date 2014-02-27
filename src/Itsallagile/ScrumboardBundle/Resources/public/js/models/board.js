@@ -29,6 +29,20 @@ itsallagile.Model.Board = Backbone.Model.extend({
         response.chat_messages = new itsallagile.Collection.ChatMessages(response.chat_messages);
         response.chat_messages.url = this.urlRoot + '/' + response.id + '/messages';
         return response;
+    },
+
+    getStoryPoints: function() {
+        var pointsCommitted = 0;
+        var pointsCompleted = 0;
+
+        this.get('stories').forEach(function(story) {
+            pointsCommitted = pointsCommitted + parseInt(story.get('points'));
+            if (story.get('status') == 'done') {
+                pointsCompleted = pointsCompleted + parseInt(story.get('points'));
+            }
+        });
+
+        return {'pointsCommitted': pointsCommitted, 'pointsCompleted': pointsCompleted};
     }
 });
 

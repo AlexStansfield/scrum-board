@@ -14,6 +14,17 @@ itsallagile.Controller.Scrumboard = itsallagile.baseObject.extend({
     load: function() {
         var container = $('#board-container');
 
+        this.boardPointsView = new itsallagile.View.BoardPoints({
+            model: this.board
+        });
+
+        var that = this;
+
+        this.board.get('stories').forEach(function(story) {
+            that.boardPointsView.listenTo(story, 'change', that.boardPointsView.render);
+            that.boardPointsView.listenTo(story, 'sync', that.boardPointsView.render);
+        });
+
         this.toolbarView = new itsallagile.View.Toolbar({
             model: this.board,
             templates: [
@@ -35,6 +46,7 @@ itsallagile.Controller.Scrumboard = itsallagile.baseObject.extend({
             id: 'board-' + this.board.get("id")
         });
 
+        container.append(this.boardPointsView.render().el);
         container.append(this.toolbarView.render().el);
         container.append(this.boardView.render().el);
         container.append(this.connectedUsersView.render().el);
@@ -42,7 +54,8 @@ itsallagile.Controller.Scrumboard = itsallagile.baseObject.extend({
         container.append('<div id="notification-container"></div>');
 
         //Open a socket
-        itsallagile.socket = io.connect(window.location.hostname + ':8080');
+        var ioaddress = 'http://' + window.location.hostname + ':8080';
+        itsallagile.socket = io.connect(ioaddress);
 
         itsallagile.roomId = 'board:' +  this.board.get("id");
         itsallagile.socket.on('connect', _.bind(this.onSocketConnect, this));
