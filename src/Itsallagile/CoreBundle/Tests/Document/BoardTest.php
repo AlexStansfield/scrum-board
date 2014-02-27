@@ -5,44 +5,9 @@ namespace Itsallagile\CoreBundle\Tests\Document;
 use Itsallagile\CoreBundle\Document\Board;
 use Itsallagile\CoreBundle\Document\Story;
 use Itsallagile\CoreBundle\Document\Ticket;
-use \Doctrine\Common\DataFixtures\Loader;
-use Itsallagile\CoreBundle\DataFixtures\MongoDB\LoadBoards;
-use \Doctrine\ODM\MongoDB\Tests\Mocks\DocumentManagerMock;
-use \Doctrine\ODM\MongoDB\Tests\Mocks\ConnectionMock;
-use \Doctrine\ODM\MongoDB\Tests\Mocks\UnitOfWorkMock;
-use \Doctrine\Common\DataFixtures\ReferenceRepository;
 
 class BoardTest extends \PHPUnit_Framework_TestCase
 {
-    /*
-    public function setUp()
-    {
-        parent::setUp();
-      //  $this->dm = DocumentManagerMock::create(new ConnectionMock());
-      //  $this->dm->setUnitOfWork = new UnitOfWorkMock($this->dm);
-    }
-
-    public function testGetStoriesSorted()
-    {
-
-       // $em = $this->getMock('Doctrine\Common\Persistence\ObjectManager');
-/*
-        $loader = new Loader();
-        $loader->addFixture(new LoadBoards);
-        $loader->loadFromDirectory(__DIR__ . '/../../DataFixtures/MongoDB');
-        $fixtures = $loader->getFixtures();
-        var_dump($fixtures);
-*/
-/*
-        $fixtures = new LoadBoards();
-        $fixtures->setReferenceRepository(new ReferenceRepository($this->dm));
-
-        var_dump($fixtures);
-        $fixture = $fixtures->load($this->dm);
-        var_dump($fixture);
-        $board = $fixture->getReference('init-board');
-*/
-
     public function testGetStories()
     {
         $board = $this->getBoard();
