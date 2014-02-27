@@ -253,4 +253,42 @@ class Board
     {
         return $this->stories->removeElement($story);
     }
+
+    /**
+     * Get the total number of committed story points for the sprint
+     *
+     * @return int
+     */
+    public function getCommittedStoryPoints()
+    {
+        $stories = $this->getStories();
+
+        $points = 0;
+
+        foreach ($stories as $story) {
+            $points += $story->getPoints();
+        }
+
+        return $points;
+    }
+
+    /**
+     * Get the total number of completed story points for the sprint
+     *
+     * @return int
+     */
+    public function getCompletedStoryPoints()
+    {
+        $stories = $this->getStories();
+
+        $points = 0;
+
+        foreach ($stories as $story) {
+            if ($story->getStatus() === Story::STATUS_DONE) {
+                $points += $story->getPoints();
+            }
+        }
+
+        return $points;
+    }
 }
