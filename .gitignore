@@ -5,6 +5,7 @@
 /vendor/
 /app/config/parameters.yml
 /node_modules
-/web/js
 /web/css
+/web/js
 behat.yml
+.idea

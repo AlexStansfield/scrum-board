@@ -44,6 +44,7 @@ class AppKernel extends Kernel
 
             //Sonata Stuff
             new Sonata\IntlBundle\SonataIntlBundle(),
+            new Sonata\CoreBundle\SonataCoreBundle(),
             new Sonata\CacheBundle\SonataCacheBundle(),
             new Sonata\BlockBundle\SonataBlockBundle(),
             new Sonata\jQueryBundle\SonatajQueryBundle(),
