@@ -32,17 +32,17 @@ itsallagile.Model.Board = Backbone.Model.extend({
     },
 
     getStoryPoints: function() {
-        var pointsCommitted = 0;
-        var pointsCompleted = 0;
+        var committed = 0;
+        var completed = 0;
 
         this.get('stories').forEach(function(story) {
-            pointsCommitted = pointsCommitted + parseInt(story.get('points'));
+            committed += parseInt(story.get('points'));
             if (story.get('status') == 'done') {
-                pointsCompleted = pointsCompleted + parseInt(story.get('points'));
+                completed += parseInt(story.get('points'));
             }
         });
 
-        return {'pointsCommitted': pointsCommitted, 'pointsCompleted': pointsCompleted};
+        return {committed: committed, completed: completed};
     }
 });
 

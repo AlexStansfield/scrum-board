@@ -18,12 +18,7 @@ itsallagile.Controller.Scrumboard = itsallagile.baseObject.extend({
             model: this.board
         });
 
-        var that = this;
-
-        this.board.get('stories').forEach(function(story) {
-            that.boardPointsView.listenTo(story, 'change', that.boardPointsView.render);
-            that.boardPointsView.listenTo(story, 'sync', that.boardPointsView.render);
-        });
+        this.boardPointsView.listenTo(this.board.get('stories'), 'change sync destroy', this.boardPointsView.render);
 
         this.toolbarView = new itsallagile.View.Toolbar({
             model: this.board,

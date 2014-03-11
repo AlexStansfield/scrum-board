@@ -1,5 +1,5 @@
 <?php
-namespace Itsallagile\ScrumboardBundle\DataFixtures\MongoDB;
+namespace Itsallagile\CoreBundle\DataFixtures\MongoDB;
 
 use Doctrine\Common\Persistence\ObjectManager;
 use Doctrine\Common\DataFixtures\AbstractFixture;
