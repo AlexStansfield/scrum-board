@@ -2,15 +2,18 @@
 
 namespace Itsallagile\APIBundle\Controller;
 
+use Doctrine\Common\Collections\Collection;
 use FOS\RestBundle\Controller\FOSRestController;
 use Itsallagile\CoreBundle\Document\Ticket;
 use Itsallagile\CoreBundle\Document\Board;
 use Itsallagile\CoreBundle\Document\Story;
+use Itsallagile\CoreBundle\Document\TicketHistory;
 use Symfony\Component\HttpFoundation\Request;
 use FOS\RestBundle\View\View;
 use Itsallagile\APIBundle\Form\TicketType;
 use Itsallagile\APIBundle\Events;
 use Symfony\Component\EventDispatcher\GenericEvent;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 /**
  * Rest controller for tickets
@@ -19,8 +22,11 @@ class TicketsController extends FOSRestController implements ApiController
 {
     /**
      * Get a story from the board and storyId and check that it was successful
+     *
      * @param Board $board
      * @param string $storyId
+     * @return Story
+     * @throws NotFoundHttpException
      */
     protected function getStory(Board $board, $storyId)
     {
@@ -31,6 +37,12 @@ class TicketsController extends FOSRestController implements ApiController
         return $story;
     }
 
+    /**
+     * @param Story $story
+     * @param $ticketId
+     * @return Ticket
+     * @throws NotFoundHttpException
+     */
     protected function getTicket(Story $story, $ticketId)
     {
         $ticket = $story->getTicket($ticketId);
@@ -46,6 +58,7 @@ class TicketsController extends FOSRestController implements ApiController
      * @param Board $board
      * @param string $storyId
      * @param string $ticketId
+     * @return Ticket
      */
     public function getTicketAction(Board $board, $storyId, $ticketId)
     {
@@ -60,6 +73,7 @@ class TicketsController extends FOSRestController implements ApiController
      * 
      * @param Board $board
      * @param string $storyId
+     * @return Collection
      */
     public function getTicketsAction(Board $board, $storyId)
     {
@@ -70,6 +84,11 @@ class TicketsController extends FOSRestController implements ApiController
 
     /**
      * Create a new ticket
+     *
+     * @param Board $board
+     * @param $storyId
+     * @param Request $request
+     * @return View
      */
     public function postTicketsAction(Board $board, $storyId, Request $request)
     {
@@ -98,6 +117,12 @@ class TicketsController extends FOSRestController implements ApiController
 
     /**
      * Update a ticket
+     *
+     * @param Board $board
+     * @param $storyId
+     * @param $ticketId
+     * @param Request $request
+     * @return View
      */
     public function putTicketAction(Board $board, $storyId, $ticketId, Request $request)
     {
@@ -124,6 +149,11 @@ class TicketsController extends FOSRestController implements ApiController
 
     /**
      * Delete a Ticket
+     *
+     * @param Board $board
+     * @param $storyId
+     * @param $ticketId
+     * @return View
      */
     public function deleteTicketAction(Board $board, $storyId, $ticketId)
     {

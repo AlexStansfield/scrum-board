@@ -6,3 +6,8 @@ services:
         arguments: [@doctrine_mongodb]
         tags:
             - { name: request.param_converter }
+    itsallagile_core.ticketlistener:
+        class: Itsallagile\CoreBundle\EventListener\TicketUpdateHistory
+        arguments: [@service_container]
+        tags:
+            - { name: doctrine_mongodb.odm.event_listener, event: preUpdate }

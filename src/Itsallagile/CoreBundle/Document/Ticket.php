@@ -4,7 +4,6 @@ namespace Itsallagile\CoreBundle\Document;
 
 use Doctrine\ODM\MongoDB\Mapping\Annotations as MongoDB;
 use Symfony\Component\Validator\Constraints as Assert;
-
 use JMS\Serializer\Annotation as JMS;
 
 /** 
@@ -61,6 +60,11 @@ class Ticket
      * @MongoDB\Field(type="string")
      */
     protected $status;
+
+    /**
+     * @MongoDB\EmbedMany(targetDocument="TicketHistory")
+     */
+    protected $history = array();
 
     /**
      * @MongoDB\Field(type="date")
@@ -186,5 +190,25 @@ class Ticket
     public function getModified()
     {
         return $this->modified;
+    }
+
+    /**
+     * Add History
+     *
+     * @param TicketHistory $history
+     */
+    public function addHistory(TicketHistory $history)
+    {
+        $this->history[] = $history;
+    }
+
+    /**
+     * Get history
+     *
+     * @return Doctrine\Common\Collections\Collection $history
+     */
+    public function getHistory()
+    {
+        return $this->history;
     }
 }

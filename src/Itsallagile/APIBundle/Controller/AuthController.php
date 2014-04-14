@@ -10,7 +10,6 @@ use FOS\RestBundle\View\View;
  */
 class AuthController extends FOSRestController implements ApiController
 {
-
     public function getAuthAction()
     {
         return array('loggedIn' => true);
