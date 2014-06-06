@@ -6,6 +6,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Itsallagile\CoreBundle\Document\Team;
 use Itsallagile\CoreBundle\Document\User;
 use Itsallagile\CoreBundle\Form\Type\Team\Add;
+use Itsallagile\CoreBundle\Form\Type\Team\AddUser;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
@@ -62,7 +63,51 @@ class TeamController extends Controller
     {
         $this->checkAdmin($team);
 
-        return $this->render('ItsallagileCoreBundle:Team:edit.html.twig', array('team' => $team));
+        $repository = $this->get('doctrine_mongodb')->getRepository('ItsallagileCoreBundle:User');
+
+        // Get addable users
+        $users = $repository->findByNotInTeam($team);
+
+        // Setup the form
+        $form = $this->get('form.factory')->create(new AddUser(), array('users' => $users));
+
+        // Grab the request
+        $request = $this->get('request');
+
+        // Check if the form was posted
+        if (('POST' == $request->getMethod())) {
+            // Bind the request to the form
+            $form->bind($request);
+
+            // Check the form is valid
+            if ($form->isValid()) {
+                // Grab the form data
+                $data = $form->getData();
+
+                if ($data['add-user']) {
+                    // Get the User document for the user to be added
+                    $user = $repository->findOneById($data['add-user']);
+                    // Add user to the Team
+                    $team->addUser($user);
+
+                    // Save the changes to Team
+                    $dm = $this->get('doctrine_mongodb')->getManager();
+                    $dm->persist($team);
+                    $dm->flush();
+
+                    // Redirect back to the page
+                    return $this->redirect($this->generateUrl(
+                        'core_teams_edit',
+                        array('id' => $team->getId())
+                    ));
+                }
+            }
+        }
+
+        return $this->render(
+            'ItsallagileCoreBundle:Team:edit.html.twig',
+            array('form' => $form->createView(), 'team' => $team)
+        );
     }
 
     /**

@@ -16,7 +16,6 @@ framework:
     translator:      { fallback: en }
     default_locale: %locale%
     session: ~
-    trust_proxy_headers: false
 
 # Twig Configuration
 twig:

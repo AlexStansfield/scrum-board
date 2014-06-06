@@ -11,7 +11,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use FOS\UserBundle\Document\User as BaseUser;
 
 /**
- * @MongoDB\Document(collection="users")
+ * @MongoDB\Document(collection="users", repositoryClass="Itsallagile\CoreBundle\Repository\UserRepository")
  */
 class User extends BaseUser
 {

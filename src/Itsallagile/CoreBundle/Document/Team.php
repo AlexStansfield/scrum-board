@@ -32,7 +32,7 @@ class Team
     protected $velocity;
 
     /**
-     * @MongoDB\ReferenceMany(targetDocument="User", inversedBy="teams")
+     * @MongoDB\ReferenceMany(targetDocument="User", inversedBy="teams", simple=true)
      */
     protected $users = array();
 
