@@ -69,7 +69,7 @@ class TeamController extends Controller
         $users = $repository->findByNotInTeam($team);
 
         // Setup the form
-        $form = $this->get('form.factory')->create(new AddUser(), array('users' => $users));
+        $form = $this->createForm(new AddUser(), array('users' => $users));
 
         // Grab the request
         $request = $this->get('request');
@@ -77,7 +77,7 @@ class TeamController extends Controller
         // Check if the form was posted
         if (('POST' == $request->getMethod())) {
             // Bind the request to the form
-            $form->bind($request);
+            $form->submit($request);
 
             // Check the form is valid
             if ($form->isValid()) {
