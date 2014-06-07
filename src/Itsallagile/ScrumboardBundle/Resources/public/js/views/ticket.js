@@ -11,6 +11,9 @@ itsallagile.View.Ticket = Backbone.View.extend({
         '<i class="icon-comment history-ticket ticket-action"></i>' +
         '<i class="icon-zoom-in zoom-ticket ticket-action"></i>' +
         '<i class="icon-remove delete-ticket ticket-action"></i>' +
+        '</div>' +
+        '<div class="ticket-assigned">' +
+        '<span class="icon-user"></span> <%= assignedUser %>' +
         '</div>',
     events: {
         "dblclick": "startEdit",
@@ -19,9 +22,10 @@ itsallagile.View.Ticket = Backbone.View.extend({
         'mouseleave' : 'toggleShowIcons',
         'click .delete-ticket' : 'deleteConfirm',
         'click .zoom-ticket' : 'zoomToggle',
-        'click .history-ticket' : 'showHistory'
+        'click .history-ticket' : 'showHistory',
+        'click .ticket-assigned' : 'assignUser'
     },
-    storyView: null,
+    story: null,
 
     /**
      * Initialize bindings to changes in the model
@@ -29,7 +33,6 @@ itsallagile.View.Ticket = Backbone.View.extend({
     initialize: function(options) {
         _.bindAll(this);
         this.story = options.story;
-        this.storyView = options.storyView;
         this.model.bind('change', this.render, this);
     },
 
@@ -48,7 +51,8 @@ itsallagile.View.Ticket = Backbone.View.extend({
         this.$el.html(_.template(this.template, {
             content : this.model.get("content"), 
             age: age,
-            ageClass: ageClass
+            ageClass: ageClass,
+            assignedUser: this.model.getAssignedUserInitials()
         }));
         $('p', this.$el).html(this.formatText($('p', this.$el).html()));
         this.$el.data('ticketId', this.model.get('id'));
@@ -129,6 +133,13 @@ itsallagile.View.Ticket = Backbone.View.extend({
             this.$el.animate({width:190, height:190}, speed);
             $('.zoom-ticket', this.$el).removeClass('icon-zoom-in').addClass('icon-zoom-out');
         }
+    },
+
+    /**
+     * Assign a user to the ticket
+     */
+    assignUser: function() {
+        itsallagile.Controller.Scrumboard.ticketUserView.showModal(this);
     },
 
     /**
