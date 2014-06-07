@@ -143,6 +143,13 @@ itsallagile.View.Ticket = Backbone.View.extend({
     },
 
     /**
+     * Open Ticket History Modal
+     */
+    showHistory: function() {
+        itsallagile.Controller.Scrumboard.ticketHistoryView.showModal(this.model);
+    },
+
+    /**
      * Show a dialog to confirm deleting a ticket
      */
     deleteConfirm: function(event) {
