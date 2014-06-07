@@ -20,6 +20,8 @@ class TicketType extends ApiForm
             ->add('history', 'hidden', array('mapped' => false))
             ->add('created', 'hidden', array('mapped' => false))
             ->add('modified', 'hidden', array('mapped' => false))
+            ->add('assigned_user', 'hidden', array('mapped' => false))
+            ->add('assignUserId', 'hidden', array('mapped' => false))
             ->add('id', 'hidden', array('mapped' => false));
 
         $builder->add(

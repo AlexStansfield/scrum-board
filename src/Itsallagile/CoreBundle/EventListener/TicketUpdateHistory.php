@@ -17,7 +17,7 @@ class TicketUpdateHistory
     /**
      * @var array
      */
-    protected $updateFields = array('status', 'content');
+    protected $updateFields = array('status', 'content', 'assignedUser');
 
     public function __construct(ContainerInterface $container) {
         $this->container = $container;

@@ -8,6 +8,7 @@ use Itsallagile\CoreBundle\Document\Ticket;
 use Itsallagile\CoreBundle\Document\Board;
 use Itsallagile\CoreBundle\Document\Story;
 use Itsallagile\CoreBundle\Document\TicketHistory;
+use Itsallagile\CoreBundle\Document\User;
 use Symfony\Component\HttpFoundation\Request;
 use FOS\RestBundle\View\View;
 use Itsallagile\APIBundle\Form\TicketType;
@@ -130,11 +131,25 @@ class TicketsController extends FOSRestController implements ApiController
         $story = $this->getStory($board, $storyId);
         $ticket = $this->getTicket($story, $ticketId);
         $form = $this->createForm(new TicketType(true), $ticket);
-        $form->bind($request);
+        $form->submit($request);
 
         if ($form->isValid()) {
+            $assignUserid = $request->get('assignUserId');
             $ticket->setModified(new \DateTime());
+
+            // get document manager
             $dm = $this->get('doctrine_mongodb')->getManager();
+
+            // Check if Assigned user
+            if (! ($user = $ticket->getAssignedUser()) || ($user->getId() !== $assignUserid)) {
+                if ($assignUserid) {
+                    $user = $dm->find('Itsallagile\CoreBundle\Document\User', $assignUserid);
+                    $ticket->setAssignedUser($user);
+                } else {
+                    $ticket->unassignUser();
+                }
+            }
+
             $dm->persist($ticket);
             $dm->flush();
 

@@ -13,6 +13,7 @@ class Ticket
 {
     const STATUS_NEW = 'new';
     const STATUS_ASSIGNED = 'assigned';
+    const STATUS_REVIEW = 'review';
     const STATUS_DONE = 'done';
 
     /**
@@ -65,6 +66,12 @@ class Ticket
      * @MongoDB\EmbedMany(targetDocument="TicketHistory")
      */
     protected $history = array();
+
+    /**
+     * @MongoDB\ReferenceOne(targetDocument="User", simple="true")
+     * @JMS\Accessor(getter="getAssignedUserDetails")
+     */
+    protected $assignedUser;
 
     /**
      * @MongoDB\Field(type="date")
@@ -210,5 +217,66 @@ class Ticket
     public function getHistory()
     {
         return $this->history;
+    }
+
+    /**
+     * Assign user to the ticket
+     *
+     * @param User $user
+     * @return Ticket
+     */
+    public function setAssignedUser(User $user)
+    {
+        $this->assignedUser = $user;
+        return $this;
+    }
+
+    /**
+     * Unassign an assigned user from the ticket
+     *
+     * @return Ticket
+     */
+    public function unassignUser()
+    {
+        $this->assignedUser = null;
+        return $this;
+    }
+
+    /**
+     * Get the full name of the assigned user
+     *
+     * @return string
+     */
+    public function getAssignedUserName()
+    {
+        return $this->assignedUser->getFullName();
+    }
+
+    /**
+     * Get the Assigned User
+     *
+     * @return User
+     */
+    public function getAssignedUser()
+    {
+        return $this->assignedUser;
+    }
+
+    /**
+     * Get relevant Assigned User details
+     * so we don't return the whole object (with password/salt hash, etc)
+     *
+     * @return array
+     */
+    public function getAssignedUserDetails()
+    {
+        if (!$this->assignedUser) {
+            return;
+        }
+
+        $user = array();
+        $user['id'] = $this->assignedUser->getId();
+        $user['name'] = $this->assignedUser->getFullName();
+        return $user;
     }
 }
