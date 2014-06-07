@@ -8,6 +8,7 @@ itsallagile.View.Ticket = Backbone.View.extend({
         '<%= content %></p><textarea class="ticket-input"><%= content %></textarea>' +
         '<div class="ticket-age <%= ageClass %>"><%= age %></div>' +
         '<div class="ticket-actions">' +
+        '<i class="icon-comment history-ticket ticket-action"></i>' +
         '<i class="icon-zoom-in zoom-ticket ticket-action"></i>' +
         '<i class="icon-remove delete-ticket ticket-action"></i>' +
         '</div>',
@@ -17,7 +18,8 @@ itsallagile.View.Ticket = Backbone.View.extend({
         'mouseenter' : 'toggleShowIcons',
         'mouseleave' : 'toggleShowIcons',
         'click .delete-ticket' : 'deleteConfirm',
-        'click .zoom-ticket' : 'zoomToggle'
+        'click .zoom-ticket' : 'zoomToggle',
+        'click .history-ticket' : 'showHistory'
     },
     storyView: null,
 

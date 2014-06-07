@@ -10,6 +10,7 @@ itsallagile.Controller.Scrumboard = itsallagile.baseObject.extend({
     toolbarView: null,
     connectedUsersView: null,
     messagesView: null,
+    ticketUserView: null,
 
     load: function() {
         var container = $('#board-container');
@@ -45,6 +46,8 @@ itsallagile.Controller.Scrumboard = itsallagile.baseObject.extend({
             id: 'board-' + this.board.get("id")
         });
 
+        this.ticketHistoryView = new itsallagile.View.TicketHistory();
+        container.append(this.ticketHistoryView.render().el);
         container.append(this.boardPointsView.render().el);
         container.append(this.toolbarView.render().el);
         container.append(this.boardView.render().el);

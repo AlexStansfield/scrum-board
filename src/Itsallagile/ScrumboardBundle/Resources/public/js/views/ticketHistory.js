@@ -1,22 +1,48 @@
 /**
  * View for the board points
  */
-itsallagile.View.BoardPoints = Backbone.View.extend({
+itsallagile.View.TicketHistory = Backbone.View.extend({
     tagName: 'div',
-    id: 'boardPoints',
+    id: 'ticket-history',
     model: null,
-    template: "<h3>Board Points: <%= committed %> committed, <%= completed %> completed</h3>",
+    template: '<div class="modal hide fade">' +
+        '<div class="modal-header">' +
+        '<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>' +
+        '<h3>Ticket History</h3>' +
+        '</div>' +
+        '<div class="modal-body">' +
+        '<ul id="ticket-history-list"></ul>' +
+        '</div>' +
+        '<div class="modal-footer">' +
+        '<a class="btn" data-dismiss="modal">Close</a>' +
+        '</div>' +
+        '</div>',
+    templateItems: '<li><%= created %> - created</li>' +
+        '<% _.forEach(history, function(item) { %>' +
+        '<li><%= item.created %> - <%= item.user %> changed <%= item.field %> to <%= item.new_value %></li>' +
+        '<% }); %>',
 
-    initialize: function(options) {
-        this.model = options.model;
-        //this.model.get('stories').bind('change sync destroy', this.render);
+    /**
+     * Render the view
+     */
+    render: function() {
+        this.$el.html(_.template(this.template));
+        return this;
     },
 
-    render: function() {
-        var storyPoints = this.model.getStoryPoints();
-        this.$el.html(_.template(
-            this.template, {committed : storyPoints.committed, completed: storyPoints.completed}
-        ));
-        return this;
+    /**
+     * Show modal
+     */
+    showModal: function(ticket) {
+        var history = ticket.get('history');
+        var created = ticket.get('created');
+        var list = $('ul#ticket-history-list', this.$el);
+
+        // Get the html list of history items
+        var itemsHtml = _.template(this.templateItems, {created: created, history: history});
+        list.html(itemsHtml);
+
+        // Show the modal
+        this.$el.find('.modal').modal('show');
     }
 });
