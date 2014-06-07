@@ -36,9 +36,10 @@
     <script>
         {% autoescape false %}
         itsallagile.Controller.Scrumboard.board = new itsallagile.Model.Board({{ board | serialize | raw }}, {parse:true});
-        itsallagile.Controller.Scrumboard.ticketStatuses = {{ ticketStatuses | json_encode()}};
-        itsallagile.Controller.Scrumboard.storyStatuses = {{ storyStatuses | json_encode()}};
-        itsallagile.Controller.Scrumboard.user = '{{ app.user.email }}';
+        itsallagile.Controller.Scrumboard.ticketStatuses = {{ ticketStatuses | json_encode() }};
+        itsallagile.Controller.Scrumboard.storyStatuses = {{ storyStatuses | json_encode() }};
+        itsallagile.Controller.Scrumboard.users = {{ users | json_encode() }};
+        itsallagile.Controller.Scrumboard.user = {{ user | json_encode() }};
         {% endautoescape %}
     </script>
     <script>

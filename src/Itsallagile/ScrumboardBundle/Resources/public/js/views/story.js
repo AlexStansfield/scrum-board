@@ -24,7 +24,8 @@ itsallagile.View.Story = Backbone.View.extend({
         '<i class="icon-remove delete-story"></i></td>' +
         '</div>',
 
-    ticketStatuses: null,
+    storyStatuses: [],
+    ticketStatuses: [],
 
     events: {
         "dblclick .story-content": "startEditContent",
@@ -214,13 +215,13 @@ itsallagile.View.Story = Backbone.View.extend({
         this.$el.find('.modal').modal('hide');
         var statusId = this.$el.find('.story-status').val();
         this.model.set('status', statusId);
-        this.setStatusClass(this.$el.find('.story-status[value="' + statusId + '"]').text());
+        this.setStatusClass(statusId);
         this.model.save();
         this.emitUpdate();
     },
 
-    setStatusClass: function(statusName) {
-        this.$el.find('.notepaper').addClass(statusName.replace(' ', '-').toLowerCase());
+    setStatusClass: function(statusId) {
+        this.$el.find('.notepaper').addClass(statusId);
     },
 
     /**
