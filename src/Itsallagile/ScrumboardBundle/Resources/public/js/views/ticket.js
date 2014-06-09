@@ -4,8 +4,8 @@
 itsallagile.View.Ticket = Backbone.View.extend({
     tagName: 'div',
     className: 'ticket',
-    template: '<p class="ticket-content">' +
-        '<%= content %></p><textarea class="ticket-input"><%= content %></textarea>' +
+    template: '<p class="ticket-content"><%= content %></p>' +
+        '<textarea class="ticket-input"><%= content %></textarea>' +
         '<div class="ticket-age <%= ageClass %>"><%= age %></div>' +
         '<div class="ticket-actions">' +
         '<i class="icon-comment history-ticket ticket-action"></i>' +
@@ -23,7 +23,7 @@ itsallagile.View.Ticket = Backbone.View.extend({
         'click .delete-ticket' : 'deleteConfirm',
         'click .zoom-ticket' : 'zoomToggle',
         'click .history-ticket' : 'showHistory',
-        'click .ticket-assigned' : 'assignUser'
+        'click .ticket-assigned' : 'showAssignUser'
     },
     story: null,
 
@@ -136,9 +136,9 @@ itsallagile.View.Ticket = Backbone.View.extend({
     },
 
     /**
-     * Assign a user to the ticket
+     * Open Assign User Modal
      */
-    assignUser: function() {
+    showAssignUser: function() {
         itsallagile.Controller.Scrumboard.ticketUserView.showModal(this);
     },
 
