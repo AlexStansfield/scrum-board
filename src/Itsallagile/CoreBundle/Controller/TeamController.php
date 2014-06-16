@@ -23,7 +23,7 @@ class TeamController extends Controller
         $form = $this->get('form.factory')->create(new Add(), $team);
 
         if ('POST' == $request->getMethod()) {
-            $form->bindRequest($request);
+            $form->submit($request);
 
             if ($form->isValid()) {
                 $user = $this->get('security.context')->getToken()->getUser();

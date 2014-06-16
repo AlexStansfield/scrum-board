@@ -18,7 +18,7 @@ class BoardController extends Controller
         $form = $this->createForm(new Add($user), $board);
 
         if ($request->getMethod() == 'POST') {
-            $form->bindRequest($request);
+            $form->submit($request);
             if ($form->isValid()) {
                 $em = $this->get('doctrine_mongodb')->getManager();
                 $em->persist($board);

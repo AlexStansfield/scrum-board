@@ -39,7 +39,7 @@ class SecurityController extends Controller
         $form = $this->get('form.factory')->create(new Registration(), $user);
 
         if ('POST' == $request->getMethod()) {
-            $form->bindRequest($request);
+            $form->submit($request);
 
             if ($form->isValid()) {
                 $factory = $this->get('security.encoder_factory');
