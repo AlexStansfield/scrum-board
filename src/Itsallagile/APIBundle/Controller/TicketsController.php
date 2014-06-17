@@ -97,7 +97,7 @@ class TicketsController extends FOSRestController implements ApiController
         $view = View::create();
         $ticket = new Ticket();
         $form = $this->createForm(new TicketType(), $ticket);
-        $form->bind($request);
+        $form->submit($request);
 
         if ($form->isValid()) {
             if (!$ticket->getStatus()) {

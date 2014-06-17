@@ -43,7 +43,7 @@ class StoriesController extends FOSRestController implements ApiController
         $view = View::create();
         $story = new Story();
         $form = $this->createForm(new StoryType(), $story);
-        $form->bind($request);
+        $form->submit($request);
 
         if ($form->isValid()) {
             if (!$story->getStatus()) {
@@ -71,7 +71,7 @@ class StoriesController extends FOSRestController implements ApiController
         $view = View::create();
         $story = $this->getStory($board, $storyId);
         $form = $this->createForm(new StoryType(true), $story);
-        $form->bind($request);
+        $form->submit($request);
 
         if ($form->isValid()) {
 

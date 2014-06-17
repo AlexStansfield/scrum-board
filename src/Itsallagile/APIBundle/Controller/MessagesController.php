@@ -48,7 +48,7 @@ class MessagesController extends FOSRestController implements ApiController
         $view = View::create();
         $message = new ChatMessage();
         $form = $this->createForm(new ChatMessageType(), $message);
-        $form->bind($request);
+        $form->submit($request);
         $user = $this->get('security.context')->getToken()->getUser();
         $message->setUser($user->getEmail());
         if ($form->isValid()) {
