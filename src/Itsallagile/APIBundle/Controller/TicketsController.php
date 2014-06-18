@@ -134,16 +134,16 @@ class TicketsController extends FOSRestController implements ApiController
         $form->submit($request);
 
         if ($form->isValid()) {
-            $assignUserid = $request->get('assignUserId');
+            $assignUserId = $request->get('assignUserId');
             $ticket->setModified(new \DateTime());
 
             // get document manager
             $dm = $this->get('doctrine_mongodb')->getManager();
 
             // Check if Assigned user
-            if (! ($user = $ticket->getAssignedUser()) || ($user->getId() !== $assignUserid)) {
-                if ($assignUserid) {
-                    $user = $dm->find('Itsallagile\CoreBundle\Document\User', $assignUserid);
+            if (! ($user = $ticket->getAssignedUser()) || ($user->getId() !== $assignUserId)) {
+                if ($assignUserId) {
+                    $user = $dm->find('Itsallagile\CoreBundle\Document\User', $assignUserId);
                     $ticket->setAssignedUser($user);
                 } else {
                     $ticket->unassignUser();

@@ -51,6 +51,11 @@ itsallagile.View.TicketUser = Backbone.View.extend({
 
         // Save the ticket with the new assigned user
         if (userId != this.ticketView.model.getAssignedUserId()) {
+            // Quick hack to fix the problem with not updating when unassigning user
+            if (userId === '') {
+                this.ticketView.model.unset('assigned_user');
+            }
+
             this.ticketView.model.save('assignUserId', userId, {success: this.ticketView.changeSuccess});
         }
     },
