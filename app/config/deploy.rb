@@ -7,7 +7,7 @@ set :app_path,    "app"
 set :use_composer, true
 set :update_vendors, false
 set :shared_files,      ["app/config/parameters.yml"]
-set :shared_children,     [app_path + "/logs"]
+set :shared_children,     [app_path + "/logs", "node_modules"]
 
 set :scm,         :git
 set :branch,      "master"
@@ -31,14 +31,15 @@ default_run_options[:pty] = true
 set :ssh_options, { :forward_agent => true }
 
 # Be more verbose by uncommenting the following line
-#logger.level = Logger::MAX_LEVEL
+logger.level = Logger::MAX_LEVEL
 
 # Set the group correctly
 after "deploy", :setup_group
 task :setup_group do
-  #run "cd #{deploy_to}/current"
+  run "cd #{deploy_to}/current"
   #run "setfacl -dR -m u:apache:rwx -m u:`whoami`:rwx #{deploy_to}/current/app/cache #{deploy_to}/current/app/logs"
   #run "setfacl -R -m u:apache:rwX -m u:`whoami`:rwX #{deploy_to}/current/app/cache #{deploy_to}/current/app/logs"
+  run "chmod -R a+rw #{deploy_to}/current/app/cache"
   #run "php #{deploy_to}/current/app/console cache:clear --env=prod --no-debug"
-  #run "php #{deploy_to}/current/app/console assetic:dump --env=prod --no-debug"
+  run "php #{deploy_to}/current/app/console assetic:dump --env=prod --no-debug"
 end
